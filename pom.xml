@@ -34,6 +34,12 @@
             <artifactId>jfreechart</artifactId>
             <version>1.0.13</version>
         </dependency>
+		
+		<!-- bean拷贝 -->
+		<dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+        </dependency>
     </dependencies>
 
 
