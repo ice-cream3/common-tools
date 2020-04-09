@@ -1,12 +1,10 @@
-package chart;
+package com.clouder.platform.util;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryLabelPositions;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.StandardChartTheme;
+import org.jfree.chart.axis.*;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
@@ -31,21 +29,15 @@ import java.text.NumberFormat;
 /**
  * @Description: ChartUtil
  * @author: lixl
- * @Date: 2020/4/3 19:26
- *
- * <!--生成图表-->
- *         <dependency>
- *             <groupId>jfree</groupId>
- *             <artifactId>jfreechart</artifactId>
- *             <version>1.0.13</version>
- *         </dependency>
+ * @Date: 2020/4/7 10:22
  */
 public class ChartUtil {
     private static final String CHART_PATH = "d:/";
+
     public static void main(String[] args) {
         ChartUtil pm = new ChartUtil();
         // 生成饼状图
-        pm.makePieChart();
+       /*pm.makePieChart();
         // 生成单组柱状图
         pm.makeBarChart();
         // 生成单组柱状图
@@ -53,19 +45,38 @@ public class ChartUtil {
         // 生成多组柱状图
         pm.makeBarGroupChart();
         // 生成堆积柱状图
-        pm.makeStackedBarChart();
+        pm.makeStackedBarChart();*/
         // 生成折线图
         pm.makeLineAndShapeChart();
+
+        /*String html = new StringBuffer("<html>\n" +
+                "\n" +
+                "<head>\n" +
+                "<title>我的第一个 HTML 页面</title>\n" +
+                "</head>\n" +
+                "\n" +
+                "<body>\n" +
+                "<img src='cid:a'/>" +
+                "<p>body 元素的内容会显示在浏览器中。</p>\n" +
+                "<p>title 元素的内容会显示在浏览器的标题栏中。</p>\n" +
+                "</body>\n" +
+                "\n" +
+                "</html>").toString();
+        EmailUtil.sendEmailPicture(Arrays.asList("lixiaolong@cloud-er.com"), html);*/
     }
 
     /**
      * 生成折线图
      */
     public void makeLineAndShapeChart() {
-        double[][] data = new double[][] { { 672, 766, 223, 540, 126 },
-                { 325, 521, 210, 340, 106 }, { 332, 256, 523, 240, 526 } };
-        String[] rowKeys = { "苹果", "梨子", "葡萄" };
-        String[] columnKeys = { "北京", "上海", "广州", "成都", "深圳" };
+        double[][] data = new double[][]{
+                {672, 766, 223, 540, 126,672, 766, 223, 540, 126,332, 256, 523, 240, 526},
+                {325, 521, 210, 340, 106,325, 521, 210, 340, 106,672, 766, 223, 540, 126},
+                {332, 256, 523, 240, 526,322, 432, 532, 542, 112,325, 521, 210, 340, 106}
+        };
+        String[] rowKeys = {"apple", "梨子", "葡萄"};
+        String[] columnKeys = {"北京1", "上海1", "广州1", "成都1", "深圳1",
+                "北京2", "上海2", "广州2", "成都2", "深圳2","北京3", "上海3", "广州3", "成都3", "深圳3"};
         CategoryDataset dataset = getBarData(data, rowKeys, columnKeys);
         createTimeXYChar("折线图", "x轴", "y轴", dataset, "lineAndShap.jpg");
     }
@@ -74,10 +85,10 @@ public class ChartUtil {
      * 生成分组的柱状图
      */
     public void makeBarGroupChart() {
-        double[][] data = new double[][] { { 672, 766, 223, 540, 126 },
-                { 325, 521, 210, 340, 106 }, { 332, 256, 523, 240, 526 } };
-        String[] rowKeys = { "苹果", "梨子", "葡萄" };
-        String[] columnKeys = { "北京", "上海", "广州", "成都", "深圳" };
+        double[][] data = new double[][]{{672, 766, 223, 540, 126},
+                {325, 521, 210, 340, 106}, {332, 256, 523, 240, 526}};
+        String[] rowKeys = {"苹果", "梨子", "葡萄"};
+        String[] columnKeys = {"北京", "上海", "广州", "成都", "深圳"};
         CategoryDataset dataset = getBarData(data, rowKeys, columnKeys);
         createBarChart(dataset, "x坐标", "y坐标", "柱状图", "barGroup.png");
     }
@@ -86,9 +97,9 @@ public class ChartUtil {
      * 生成柱状图
      */
     public void makeBarChart() {
-        double[][] data = new double[][] { { 672, 766, 223, 540, 126 } };
-        String[] rowKeys = { "苹果" };
-        String[] columnKeys = { "北京", "上海", "广州", "成都", "深圳" };
+        double[][] data = new double[][]{{672, 766, 223, 540, 126}};
+        String[] rowKeys = {"苹果"};
+        String[] columnKeys = {"北京", "上海", "广州", "成都", "深圳"};
         CategoryDataset dataset = getBarData(data, rowKeys, columnKeys);
         createBarChart(dataset, "x坐标", "y坐标", "柱状图", "bar.png");
     }
@@ -97,9 +108,9 @@ public class ChartUtil {
      * 生成柱状图
      */
     public void makeBarChart2() {
-        double[][] data = new double[][] { { 672, 766, 223, 540, 126 } };
-        String[] rowKeys = { "苹果" };
-        String[] columnKeys = { "北京", "上海", "广州", "成都", "深圳" };
+        double[][] data = new double[][]{{672, 766, 223, 540, 126}};
+        String[] rowKeys = {"苹果"};
+        String[] columnKeys = {"北京", "上海", "广州", "成都", "深圳"};
         CategoryDataset dataset = getBarData(data, rowKeys, columnKeys);
         createHorizontalBarChart(dataset, "x坐标", "y坐标", "柱状图", "bar2.png");
     }
@@ -108,10 +119,10 @@ public class ChartUtil {
      * 生成堆栈柱状图
      */
     public void makeStackedBarChart() {
-        double[][] data = new double[][] { { 0.21, 0.66, 0.23, 0.40, 0.26 },
-                { 0.25, 0.21, 0.10, 0.40, 0.16 } };
-        String[] rowKeys = { "苹果", "梨子" };
-        String[] columnKeys = { "北京", "上海", "广州", "成都", "深圳" };
+        double[][] data = new double[][]{{0.21, 0.66, 0.23, 0.40, 0.26},
+                {0.25, 0.21, 0.10, 0.40, 0.16}};
+        String[] rowKeys = {"苹果", "梨子"};
+        String[] columnKeys = {"北京", "上海", "广州", "成都", "深圳"};
         CategoryDataset dataset = getBarData(data, rowKeys, columnKeys);
         createStackedBarChart(dataset, "x坐标", "y坐标", "柱状图", "stsckedBar.png");
     }
@@ -120,25 +131,21 @@ public class ChartUtil {
      * 生成饼状图
      */
     public void makePieChart() {
-        double[] data = { 9, 91 };
-        String[] keys = { "失败率", "成功率" };
+        double[] data = {9, 91};
+        String[] keys = {"失败率", "成功率"};
 
         createValidityComparePimChar(getDataPieSetByUtil(data, keys), "饼状图",
                 "pie2.png", keys);
     }
 
     // 柱状图,折线图 数据集
-    public CategoryDataset getBarData(double[][] data, String[] rowKeys,
-                                      String[] columnKeys) {
-        return DatasetUtilities
-                .createCategoryDataset(rowKeys, columnKeys, data);
+    public static CategoryDataset getBarData(double[][] data, String[] rowKeys, String[] columnKeys) {
+        return DatasetUtilities.createCategoryDataset(rowKeys, columnKeys, data);
 
     }
 
     // 饼状图 数据集
-    public PieDataset getDataPieSetByUtil(double[] data,
-                                          String[] datadescription) {
-
+    public PieDataset getDataPieSetByUtil(double[] data, String[] datadescription) {
         if (data != null && datadescription != null) {
             if (data.length == datadescription.length) {
                 DefaultPieDataset dataset = new DefaultPieDataset();
@@ -147,25 +154,18 @@ public class ChartUtil {
                 }
                 return dataset;
             }
-
         }
-
         return null;
     }
 
     /**
      * 柱状图
      *
-     *@param dataset
-     *            数据集
-     * @param xName
-     *            x轴的说明（如种类，时间等）
-     * @param yName
-     *            y轴的说明（如速度，时间等）
-     * @param chartTitle
-     *            图标题
-     * @param charName
-     *            生成图片的名字
+     * @param dataset    数据集
+     * @param xName      x轴的说明（如种类，时间等）
+     * @param yName      y轴的说明（如速度，时间等）
+     * @param chartTitle 图标题
+     * @param charName   生成图片的名字
      * @return
      */
     public String createBarChart(CategoryDataset dataset, String xName,
@@ -280,16 +280,11 @@ public class ChartUtil {
     /**
      * 横向图
      *
-     * @param dataset
-     *            数据集
-     * @param xName
-     *            x轴的说明（如种类，时间等）
-     * @param yName
-     *            y轴的说明（如速度，时间等）
-     * @param chartTitle
-     *            图标题
-     * @param charName
-     *            生成图片的名字
+     * @param dataset    数据集
+     * @param xName      x轴的说明（如种类，时间等）
+     * @param yName      y轴的说明（如速度，时间等）
+     * @param chartTitle 图标题
+     * @param charName   生成图片的名字
      * @return
      */
     public String createHorizontalBarChart(CategoryDataset dataset,
@@ -375,14 +370,10 @@ public class ChartUtil {
     /**
      * 饼状图
      *
-     * @param dataset
-     *            数据集
-     * @param chartTitle
-     *            图标题
-     * @param charName
-     *            生成图的名字
-     * @param pieKeys
-     *            分饼的名字集
+     * @param dataset    数据集
+     * @param chartTitle 图标题
+     * @param charName   生成图的名字
+     * @param pieKeys    分饼的名字集
      * @return
      */
     public String createValidityComparePimChar(PieDataset dataset,
@@ -468,7 +459,7 @@ public class ChartUtil {
      *
      * @param chartPath
      */
-    private void isChartPathExist(String chartPath) {
+    private static void isChartPathExist(String chartPath) {
         File file = new File(chartPath);
         if (!file.exists()) {
             file.mkdirs();
@@ -486,66 +477,101 @@ public class ChartUtil {
      * @param charName
      * @return
      */
-    public String createTimeXYChar(String chartTitle, String x, String y,
-                                   CategoryDataset xyDataset, String charName) {
-
+    public static String createTimeXYChar(String chartTitle, String x, String y, CategoryDataset xyDataset, String charName) {
+        //创建主题样式，避免中文乱码
+        StandardChartTheme standardChartTheme = new StandardChartTheme("CN");
+        // 设置标题字体
+        standardChartTheme.setExtraLargeFont(new Font("宋体", Font.BOLD, 20));
+        // 设置图例的字体
+        standardChartTheme.setRegularFont(new Font("宋体", Font.PLAIN, 15));
+        // 设置轴向的字体
+        standardChartTheme.setLargeFont(new Font("宋体", Font.PLAIN, 15));
+        // 应用主题样式
+        ChartFactory.setChartTheme(standardChartTheme);
+        /*//如果把createLineChart改为createLineChart3D就变为了3D效果的折线图
+        JFreeChart  chart = ChartFactory.createLineChart("图表标题", "X轴标题", "Y轴标题", dataSet,
+                PlotOrientation.VERTICAL, // 绘制方向
+                true, // 显示图例
+                true, // 采用标准生成器
+                false // 是否生成超链接
+        );*/
         JFreeChart chart = ChartFactory.createLineChart(chartTitle, x, y,
                 xyDataset, PlotOrientation.VERTICAL, true, true, false);
-
         chart.setTextAntiAlias(false);
         chart.setBackgroundPaint(Color.WHITE);
         // 设置图标题的字体重新设置title
-        Font font = new Font("隶书", Font.BOLD, 25);
+        Font font = new Font("宋体", Font.BOLD, 25);
         TextTitle title = new TextTitle(chartTitle);
         title.setFont(font);
         chart.setTitle(title);
-        // 设置面板字体
-        Font labelFont = new Font("SansSerif", Font.TRUETYPE_FONT, 12);
-
         chart.setBackgroundPaint(Color.WHITE);
 
         CategoryPlot categoryplot = (CategoryPlot) chart.getPlot();
         // x轴 // 分类轴网格是否可见
         categoryplot.setDomainGridlinesVisible(true);
-        // y轴 //数据轴网格是否可见
+        // y轴 // 数据轴网格是否可见
         categoryplot.setRangeGridlinesVisible(true);
-
-        categoryplot.setRangeGridlinePaint(Color.WHITE);// 虚线色彩
-
-        categoryplot.setDomainGridlinePaint(Color.WHITE);// 虚线色彩
+        // 虚线色彩
+        categoryplot.setRangeGridlinePaint(Color.WHITE);
+        // 虚线色彩
+        categoryplot.setDomainGridlinePaint(Color.WHITE);
 
         categoryplot.setBackgroundPaint(Color.lightGray);
 
         // 设置轴和面板之间的距离
         // categoryplot.setAxisOffset(new RectangleInsets(5D, 5D, 5D, 5D));
 
+        // 设置X轴
         CategoryAxis domainAxis = categoryplot.getDomainAxis();
-
-        domainAxis.setLabelFont(labelFont);// 轴标题
-        domainAxis.setTickLabelFont(labelFont);// 轴数值
-
-        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45); // 横轴上的
-        // Lable
-        // 45度倾斜
+        // 设置面板字体
+        Font labelFont = new Font("宋体", Font.TRUETYPE_FONT, 12);
+        // 轴标题
+        domainAxis.setLabelFont(labelFont);
+        // 轴数值
+        domainAxis.setTickLabelFont(labelFont);
+        // 横轴上的Label 45度倾斜
+        domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45);
         // 设置距离图片左端距离
         domainAxis.setLowerMargin(0.0);
         // 设置距离图片右端距离
         domainAxis.setUpperMargin(0.0);
+        domainAxis.setMaximumCategoryLabelLines(20);
 
+        // 设置Y轴
         NumberAxis numberaxis = (NumberAxis) categoryplot.getRangeAxis();
         numberaxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
         numberaxis.setAutoRangeIncludesZero(true);
+        // 数据轴数据标签的显示格式
+        DecimalFormat df = new DecimalFormat("#.##%");
+        numberaxis.setNumberFormatOverride(df);
+        // 每2个刻度显示一个刻度值
+        numberaxis.setTickUnit(new NumberTickUnit(0.2));
 
-        // 获得renderer 注意这里是下嗍造型到lineandshaperenderer！！
-        LineAndShapeRenderer lineandshaperenderer = (LineAndShapeRenderer) categoryplot
-                .getRenderer();
+        // 获得renderer 注意这里是下嗍造型到 LineAndShapeRenderer
+        LineAndShapeRenderer lineandshaperenderer = (LineAndShapeRenderer) categoryplot.getRenderer();
+        // series 点（即数据点）可见
+        lineandshaperenderer.setBaseShapesVisible(true);
+        // series 点（即数据点）间有连线可见
+        lineandshaperenderer.setBaseLinesVisible(true);
 
-        lineandshaperenderer.setBaseShapesVisible(true); // series 点（即数据点）可见
-        lineandshaperenderer.setBaseLinesVisible(true); // series 点（即数据点）间有连线可见
+        /*// 获取折线对象
+        BasicStroke realLine = new BasicStroke(1.8f); // 设置实线
+        // 虚线间隔
+        float[] dashes = {5.0f};
+        BasicStroke brokenLine = new BasicStroke(2.2f, // 线条粗细
+                BasicStroke.CAP_SQUARE, // 端点风格
+                BasicStroke.JOIN_BEVEL, // 折点风格
+                10f, dashes, 0.6f);
+        for (int i = 0; i < xyDataset.getRowCount(); i++) {
+            if (i % 2 == 0) {
+                lineandshaperenderer.setSeriesStroke(i, realLine); // 利用实线绘制
+            } else {
+                lineandshaperenderer.setSeriesStroke(i, brokenLine); // 利用虚线绘制
+            }
+        }*/
 
         // 显示折点数据
-        // lineandshaperenderer.setBaseItemLabelGenerator(new
-        // StandardCategoryItemLabelGenerator());
+        // lineandshaperenderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator());
         // lineandshaperenderer.setBaseItemLabelsVisible(true);
 
         FileOutputStream fos_jpg = null;
@@ -555,8 +581,7 @@ public class ChartUtil {
             fos_jpg = new FileOutputStream(chartName);
 
             // 将报表保存为png文件
-            ChartUtilities.writeChartAsPNG(fos_jpg, chart, 500, 510);
-
+            ChartUtilities.writeChartAsPNG(fos_jpg, chart, 1500, 510);
             return chartName;
         } catch (Exception e) {
             e.printStackTrace();
