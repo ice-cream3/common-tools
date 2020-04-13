@@ -6,7 +6,18 @@ import org.dozer.DozerBeanMapper;
 import java.util.Collection;
 import java.util.List;
 
-
+/**
+ * @Description: BeanMapper
+ * @author: lixl
+ * @Date: 2020/4/13 19:10
+ *
+ *
+ * <dependency>
+ *             <groupId>net.sf.dozer</groupId>
+ *             <artifactId>dozer</artifactId>
+ *             <version>5.5.1</version>
+ *         </dependency>
+ */ 
 public class BeanMapper {
     /**
      * 持有Dozer单例, 避免重复创建DozerMapper消耗资源.

@@ -2,3 +2,4 @@
 chartUtil:使用jfreechart工具包1.0.13版本生成所需要的图表工具
 emailUtil:使用commons-email工具包1.4版本发送邮件
 dozer:bean拷贝BeanMapper工具类
+钉钉:钉钉发送信息DingDingUtil工具
