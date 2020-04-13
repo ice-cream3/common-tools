@@ -1,4 +1,4 @@
-package com.clouder.platform.util;
+package bean;
 
 import com.google.common.collect.Lists;
 import org.dozer.DozerBeanMapper;
