@@ -3,6 +3,7 @@
  */
 package picture;
 
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -20,7 +21,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import picture.CollectionUtils;
 import util.StringUtils;
 
 import javax.net.ssl.SSLContext;
@@ -40,7 +40,7 @@ public class HttpUtils {
     private static HttpClient client;
 
     public void setHttpClient(HttpClient client) {
-        this.client = client;
+        HttpUtils.client = client;
     }
 
     public static void download(String url, File file, Header... header) {
@@ -394,6 +394,7 @@ public class HttpUtils {
             SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(
                     null, new TrustStrategy() {
                         // 信任所有
+                        @Override
                         public boolean isTrusted(X509Certificate[] chain,
                                                  String authType) throws CertificateException {
                             return true;
