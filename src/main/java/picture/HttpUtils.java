@@ -21,6 +21,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.springframework.util.MimeTypeUtils;
 import util.StringUtils;
 
 import javax.net.ssl.SSLContext;
