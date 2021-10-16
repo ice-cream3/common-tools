@@ -48,8 +48,6 @@ import java.util.Arrays;
 
 /**
  * 创建Http请求工具类
- * 
- * @author huiwu
  *
  */
 public class HttpClientUtil {
@@ -261,8 +259,8 @@ public class HttpClientUtil {
 
 	public static GetRequest buildGetRequest(String url, int retryCount) {
 		return new GetRequest(getHttpClient(retryCount), url);
-	}
 
+	}
 	public static GetRequest buildGetRequest(String url, int retryCount,String userName,String password) throws URISyntaxException {
 		return new GetRequest(getHttpClient(url,retryCount,userName,password), url);
 	}

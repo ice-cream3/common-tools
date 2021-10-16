@@ -2,9 +2,6 @@ package http;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import exception.HttpException;
-import exception.NetworkTimeoutException;
-import exception.NotAuthorizedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -12,7 +9,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -23,14 +19,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.net.SocketTimeoutException;
 import java.nio.charset.Charset;
 import java.util.*;
 
 
 /**
  * 处理post请求
- * @author huiwu
  */
 public final class PostRequest extends Request{
 
@@ -180,17 +174,17 @@ public final class PostRequest extends Request{
 	
 
 	@Override
-	public String execute()throws HttpException, NetworkTimeoutException, NotAuthorizedException {
+	public String execute() {
 		return exc(String.class);
 	}
 
 	@Override
-	public JSONObject executeToJson()throws HttpException, NetworkTimeoutException ,NotAuthorizedException {
+	public JSONObject executeToJson() {
 		return exc(JSONObject.class);
 	}
 
 	@Override
-	public  <T>T executeToObject(Class<T> clazz)throws HttpException, NetworkTimeoutException ,NotAuthorizedException {
+	public  <T>T executeToObject(Class<T> clazz) {
 		return exc(clazz);
 	}
 
@@ -200,7 +194,7 @@ public final class PostRequest extends Request{
     }
 
     @SuppressWarnings("unchecked")
-	private <T> T exc(Class<T> clazz) throws HttpException, NetworkTimeoutException ,NotAuthorizedException {
+	private <T> T exc(Class<T> clazz) {
 		T obj = null;
 		int status = 0;
 		String result = null;
@@ -215,7 +209,7 @@ public final class PostRequest extends Request{
 			HttpEntity entity = response.getEntity();
 			status = response.getStatusLine().getStatusCode();
 			if (status == 401){
-				throw new NotAuthorizedException(401,"账号或密码错误");
+				//throw new NotAuthorizedException(401,"账号或密码错误");
 			}
 			if (entity!=null) {
 				try {
@@ -242,14 +236,14 @@ public final class PostRequest extends Request{
 					EntityUtils.consume(entity);
 				}
 			}
-		} catch (NotAuthorizedException e){
-			throw e;
-		}catch (SocketTimeoutException stc) {
-			throw new NetworkTimeoutException(1000, "请求超时", stc);
-		} catch (ConnectTimeoutException e) {
-			throw new NetworkTimeoutException(1000, "请求超时", e);
+//		} catch (NotAuthorizedException e){
+//			throw e;
+//		}catch (SocketTimeoutException stc) {
+//			throw new NetworkTimeoutException(1000, "请求超时", stc);
+//		} catch (ConnectTimeoutException e) {
+//			throw new NetworkTimeoutException(1000, "请求超时", e);
 		} catch (Exception e) {
-			throw new HttpException(500, "", e);
+//			throw new HttpException(500, "", e);
 		}finally {
 			long endTime = System.currentTimeMillis();
 			if (ignoreResult){

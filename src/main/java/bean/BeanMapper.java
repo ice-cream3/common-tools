@@ -3,8 +3,7 @@ package bean;
 import com.google.common.collect.Lists;
 import org.dozer.DozerBeanMapper;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Description: BeanMapper
@@ -38,6 +37,8 @@ public class BeanMapper {
      * 基于Dozer转换Collection中对象的类型.
      */
     public static <T> List<T> mapList(Collection sourceList, Class<T> destinationClass) {
+        Map map = new LinkedHashMap(6);
+        map.put(1,1);
         List<T> destinationList = Lists.newArrayList();
         if (sourceList==null||sourceList.isEmpty()){
             return destinationList;

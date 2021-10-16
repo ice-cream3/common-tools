@@ -28,7 +28,6 @@ import java.util.*;
 /**
  * 处理put请求
  *
- * @author huiwu
  */
 public final class PutRequest extends Request {
 

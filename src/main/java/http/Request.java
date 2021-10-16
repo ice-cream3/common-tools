@@ -1,14 +1,12 @@
 package http;
 
 import com.alibaba.fastjson.JSONObject;
-import exception.NetworkTimeoutException;
 import org.apache.http.HttpException;
 import org.apache.http.client.config.RequestConfig;
 
 
 /**
  * Http request
- * @author huiwu
  *
  */
 public abstract class Request {
@@ -47,20 +45,20 @@ public abstract class Request {
 	 * 执行请求并返回结果
 	 * @return
 	 */
-	public abstract String execute()throws HttpException, NetworkTimeoutException, exception.HttpException;
+	public abstract String execute()throws HttpException;
 	/**
 	 * 执行请求并返回指定类的对象，此方法在ContextType是 application/json情况下执行正确
 	 * @see org.apache.http.entity.ContentType APPLICATION_JSON
 	 * @return
 	 */
-	public abstract JSONObject executeToJson()throws HttpException, NetworkTimeoutException, exception.HttpException;
+	public abstract JSONObject executeToJson()throws HttpException;
 	/**
 	 * 执行请求并返回指定类的对象，此方法在ContextType是 application/json情况下执行正确
      * @see org.apache.http.entity.ContentType APPLICATION_JSON
 	 * @param clazz
 	 * @return
 	 */
-	public abstract <T>T executeToObject(Class<T> clazz)throws HttpException, NetworkTimeoutException, exception.HttpException;
+	public abstract <T>T executeToObject(Class<T> clazz)throws HttpException;
 
 
 }

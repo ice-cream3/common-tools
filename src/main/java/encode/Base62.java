@@ -1,4 +1,4 @@
-package com.bitfty.util;
+package encode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
@@ -226,7 +226,7 @@ public class Base62 {
         String encodesStr = new String(encoded);
         System.out.println(encodesStr);
 
-        base62 = Base62.createInstance(); 
+        base62 = Base62.createInstance();
 
         byte[] decoded = base62.decode(encodesStr.getBytes());
         String decodebStr = new String(decoded);

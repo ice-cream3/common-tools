@@ -3,21 +3,16 @@ package http;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import exception.HttpException;
-import exception.NetworkTimeoutException;
-import exception.NotAuthorizedException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.entity.ContentType;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.SocketTimeoutException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -25,8 +20,6 @@ import java.util.Set;
 
 /**
  * 处理GET请求
- *
- * @author huiwu
  */
 public final class GetRequest extends Request {
 
@@ -73,22 +66,22 @@ public final class GetRequest extends Request {
     }
 
     @Override
-    public String execute() throws HttpException, NetworkTimeoutException, NotAuthorizedException {
+    public String execute() {
         return exc(String.class);
     }
 
     @Override
-    public JSONObject executeToJson() throws HttpException, NetworkTimeoutException ,NotAuthorizedException {
+    public JSONObject executeToJson() {
         return exc(JSONObject.class);
     }
 
     @Override
-    public <T> T executeToObject(Class<T> clazz) throws HttpException, NetworkTimeoutException ,NotAuthorizedException {
+    public <T> T executeToObject(Class<T> clazz) {
         return exc(clazz);
     }
 
     @SuppressWarnings("unchecked")
-    private <T> T exc(Class<T> clazz) throws HttpException, NetworkTimeoutException ,NotAuthorizedException{
+    private <T> T exc(Class<T> clazz){
         T obj = null;
         String result = null;
         int status = 0;
@@ -101,7 +94,7 @@ public final class GetRequest extends Request {
                 try {
                     status = response.getStatusLine().getStatusCode();
                     if (status == 401){
-                        throw new NotAuthorizedException(401,"账号或密码错误");
+                        throw new Exception();
                     }
                     result = EntityUtils.toString(entity, charset);
                     ContentType ct = ContentType.get(entity);
@@ -126,14 +119,8 @@ public final class GetRequest extends Request {
                     EntityUtils.consume(entity);
                 }
             }
-        } catch (NotAuthorizedException e){
-            throw e;
-        }catch (SocketTimeoutException stc) {
-            throw new NetworkTimeoutException(1000, "请求超时", stc);
-        } catch (ConnectTimeoutException e) {
-            throw new NetworkTimeoutException(1000, "请求超时", e);
         } catch (Exception e) {
-            throw new HttpException(500, "", e);
+            //throw new HttpException(500, "", e);
         } finally {
             long endTime = System.currentTimeMillis();
             if (ignoreResult) {
