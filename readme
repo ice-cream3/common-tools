@@ -3,6 +3,7 @@ chartUtil:使用jfreechart工具包1.0.13版本生成所需要的图表工具
 emailUtil:使用commons-email工具包1.4版本发送邮件
 dozer:bean拷贝BeanMapper工具类
 钉钉:钉钉发送信息DingDingUtil工具
+picture:图片处理demo,图片合成等
 ratelimiter:限流,漏桶算法和令牌桶算法(两者主要区别在于“漏桶算法”能够强行限制数据的传输速率，而“令牌桶算法”在能够限制数据的平均传输速率外，还允许某种程度的突发传输。)
     Guava是google提供的java扩展类库，其中的限流工具类RateLimiter采用的就是令牌桶算法。
     Semphore进行并发流控,Java 并发库的Semaphore 可以很轻松完成信号量控制
