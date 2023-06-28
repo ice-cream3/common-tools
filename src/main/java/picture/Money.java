@@ -139,7 +139,6 @@ public class Money implements Comparable<Money> {
      *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
-    @Override
     public int compareTo(Money o) {
         return (value).compareTo(o.getValue());
     }

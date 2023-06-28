@@ -163,7 +163,7 @@ public class HttpUtils {
     }
 
     private static List<NameValuePair> convertToNameValuePairList(Object parameter) {
-        List<NameValuePair> pairList = new ArrayList<>();
+        List<NameValuePair> pairList = new ArrayList<NameValuePair>();
         if (parameter != null) {
             Field[] fields = FieldUtils.getAllFields(parameter.getClass());
             for (Field field : fields) {
@@ -395,7 +395,6 @@ public class HttpUtils {
             SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(
                     null, new TrustStrategy() {
                         // 信任所有
-                        @Override
                         public boolean isTrusted(X509Certificate[] chain,
                                                  String authType) throws CertificateException {
                             return true;
