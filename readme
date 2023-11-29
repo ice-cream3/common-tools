@@ -2,6 +2,7 @@
 chartUtil:使用jfreechart工具包1.0.13版本生成所需要的图表工具
 emailUtil:使用commons-email工具包1.4版本发送邮件
 dozer:bean拷贝BeanMapper工具类
+cglib:bean拷贝BeanCopierUtils工具类 性能比dozer好很多
 钉钉:钉钉发送信息DingDingUtil工具
 picture:图片处理demo,图片合成等
 http:http请示工具
