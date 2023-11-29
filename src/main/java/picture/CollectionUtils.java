@@ -24,11 +24,7 @@ public class CollectionUtils extends org.apache.commons.collections.CollectionUt
             return null;
         }
 
-        List<T> newList = new ArrayList<>();
-        for (T each : list) {
-            newList.add(each);
-        }
-        return newList;
+        return new ArrayList<T>(list);
     }
 
     public static <T> List<T> reverse(List<T> list) {
@@ -36,7 +32,7 @@ public class CollectionUtils extends org.apache.commons.collections.CollectionUt
             return null;
         }
 
-        List<T> newList = new ArrayList<>();
+        List<T> newList = new ArrayList<T>();
         for (int i = list.size() - 1; i >= 0; i--) {
             newList.add(list.get(i));
         }
@@ -46,8 +42,8 @@ public class CollectionUtils extends org.apache.commons.collections.CollectionUt
     public static <T> List<T> sort(List<T> list, Comparator<T> comparable) {
         List<T> newList = copy(list);
         if (!isEmpty(newList)) {
-            // 重新排序
-            Collections.sort(newList, comparable);
+            // 重新排序 Collections.sort(newList, comparable);
+            newList.sort(comparable);
         }
         return newList;
     }
@@ -55,13 +51,13 @@ public class CollectionUtils extends org.apache.commons.collections.CollectionUt
     /**
      * list去重
      *
-     * @param list
-     * @param comparable
-     * @param <T>
-     * @return
+     * @param list data
+     * @param comparable 比较
+     * @param <T> t
+     * @return t
      */
     public static <T> List<T> distinct(List<T> list, Comparator<T> comparable) {
-        List<T> distinctList = new ArrayList<>();
+        List<T> distinctList = new ArrayList<T>();
 
         for (T each : list) {
             int idx = Collections.binarySearch(distinctList, each, comparable);
@@ -473,8 +469,8 @@ public class CollectionUtils extends org.apache.commons.collections.CollectionUt
         int fromIndex = 0;
         int toIndex = 0;
         while (fromIndex < total) {
-            toIndex = (fromIndex + elementCount) > total ? total : fromIndex + elementCount;
-            result.add(sourceList.subList(fromIndex, toIndex).stream().map(e -> factory.apply(e)).collect(Collectors.toList()));
+            toIndex = Math.min((fromIndex + elementCount), total);
+            result.add(sourceList.subList(fromIndex, toIndex).stream().map(factory).collect(Collectors.toList()));
             fromIndex += elementCount;
         }
         return result;
@@ -535,10 +531,10 @@ public class CollectionUtils extends org.apache.commons.collections.CollectionUt
         int round = 0;
         while (index < total) {
             if (round < divide) {
-                result.add(sourceList.subList(index, index + maxElementCount).stream().map(e -> factory.apply(e)).collect(Collectors.toList()));
+                result.add(sourceList.subList(index, index + maxElementCount).stream().map(factory).collect(Collectors.toList()));
                 index = index + maxElementCount;
             } else {
-                result.add(sourceList.subList(index, index + maxElementCount - 1).stream().map(e -> factory.apply(e)).collect(Collectors.toList()));
+                result.add(sourceList.subList(index, index + maxElementCount - 1).stream().map(factory).collect(Collectors.toList()));
                 index = index + maxElementCount - 1;
             }
             round++;
@@ -564,7 +560,6 @@ public class CollectionUtils extends org.apache.commons.collections.CollectionUt
         Map<K, T> map = source.stream().collect(Collectors.toMap(classifier, item -> item));
         List<T> sameList = new ArrayList<T>();
         List<T> addList = new ArrayList<T>();
-        List<T> subtractList = new ArrayList<T>();
         if (target != null && target.size() > 0) {
             for (T element : target) {
                 K key = classifier.apply(element);
@@ -576,8 +571,7 @@ public class CollectionUtils extends org.apache.commons.collections.CollectionUt
                 map.remove(key);
             }
         }
-        subtractList.addAll(map.values());
-
+        List<T> subtractList = new ArrayList<T>(map.values());
         return Arrays.asList(sameList, addList, subtractList);
     }
 

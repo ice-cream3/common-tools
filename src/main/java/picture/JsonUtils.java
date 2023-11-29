@@ -315,7 +315,7 @@ public class JsonUtils {
         try {
             JsonNode jsonNode = mapper.readTree(value);
             if (jsonNode.isArray()) {
-                List<T> list = new ArrayList<>();
+                List<T> list = new ArrayList<T>();
                 for (JsonNode element : jsonNode) {
                     list.add(mapper.readValue(element.toString(), clazz));
                 }
