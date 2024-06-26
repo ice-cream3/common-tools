@@ -7,7 +7,7 @@ import java.util.*;
 
 /**
  * @Description: BeanMapper
- * @author: lixl
+ * @author: ice
  * @Date: 2020/4/13 19:10
  *
  *
@@ -16,6 +16,7 @@ import java.util.*;
  *             <artifactId>dozer</artifactId>
  *             <version>5.5.1</version>
  *         </dependency>
+ * dozer进行bean拷贝时很消耗性能
  */ 
 public class BeanMapper {
     /**
