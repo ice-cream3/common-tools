@@ -27,6 +27,7 @@ import java.util.*;
  * 由于request流只能读一次,所以当过滤器过滤时打印了request数据时业务业务将会无法接收到正常的请求数据.
  * 需要重写getInputStream()方法,保证所有的request请求都能获取的参数,也就是让request做到可以无限次获取
  * 具体实现参考:DefineServletRequestWrapper 重写 HttpServletRequestWrapper,写一个自定义包装类并继承HttpServletRequestWrapper
+ * 创建过滤器RequestResponseLogFilter，通过过滤器包装原有的request对象:request = new DefineServletRequestWrapper(request);
  */
 @Component
 public class RequestResponseLogFilter extends OncePerRequestFilter implements Ordered {
