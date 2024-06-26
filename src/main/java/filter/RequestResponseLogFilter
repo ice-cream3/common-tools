@@ -1,0 +1,184 @@
+package src.main.java.filter;
+
+import com.alibaba.nacos.common.util.UuidUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+import org.springframework.core.Ordered;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.ContentCachingRequestWrapper;
+import org.springframework.web.util.ContentCachingResponseWrapper;
+import org.springframework.web.util.WebUtils;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
+
+/**
+ * @author ice
+ * @date 2019/12/20 15:42
+ */
+@Component
+public class RequestResponseLogFilter extends OncePerRequestFilter implements Ordered {
+
+    private static final Logger logger = LoggerFactory.getLogger(RequestResponseLogFilter.class);
+
+    private int order = Ordered.LOWEST_PRECEDENCE - 8;
+
+    public static final String SPLIT_STRING_M = "=";
+
+    public static final String SPLIT_STRING_DOT = ",";
+
+    @Override
+    public int getOrder() {
+        return order;
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        long start = System.currentTimeMillis();
+        MDC.clear();
+        MDC.put("traceId", UuidUtils.generateUuid().replaceAll("-",""));
+        ContentCachingRequestWrapper wrapperRequest = new ContentCachingRequestWrapper(request);
+        ContentCachingResponseWrapper wrapperResponse = new ContentCachingResponseWrapper(response);
+        getRequestInfo(wrapperRequest, wrapperResponse);
+        filterChain.doFilter(wrapperRequest, wrapperResponse);
+
+        /*String urlParams = getRequestParams(request);
+        String requestBodyStr = getRequestBody(wrapperRequest);
+        logger.info("params[{}]|body:{}", urlParams, requestBodyStr);*/
+        String responseBodyStr = getResponseBody(wrapperResponse);
+        logger.info("response[time={},status={},body={}]", (System.currentTimeMillis()-start), wrapperResponse.getStatus(), responseBodyStr);
+        wrapperResponse.copyBodyToResponse();
+    }
+
+    /**
+     * 打印请求信息
+     * @param requestWrapper
+     * @param responseWrapper
+     */
+    private void getRequestInfo(ContentCachingRequestWrapper requestWrapper, ContentCachingResponseWrapper responseWrapper) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode rootNode = mapper.createObjectNode();
+            rootNode.put("method", requestWrapper.getMethod());
+            rootNode.put("uri", requestWrapper.getRequestURI());
+            rootNode.put("clientIp", requestWrapper.getRemoteAddr());
+            rootNode.set("requestHeaders", mapper.valueToTree(getRequestHeaders(requestWrapper)));
+            rootNode.set("request", mapper.valueToTree(requestWrapper.getParameterMap()));
+            /*if(method.equals("GET")) {
+                rootNode.set("request", mapper.valueToTree(requestWrapper.getParameterMap()));
+            } else {
+                byte[] contentAsByteArray = requestWrapper.getContentAsByteArray();
+                Map<String, String[]> parameterMap = requestWrapper.getParameterMap();
+                JsonNode newNode = mapper.readTree(requestWrapper.getContentAsByteArray());
+                rootNode.set("request", newNode);
+            }*/
+            // response
+            /*rootNode.put("status", responseWrapper.getStatus());
+            rootNode.set("response", mapper.readTree(getResponseBody(responseWrapper)));
+            rootNode.set("responseHeaders", mapper.valueToTree(getResponseHeaders(responseWrapper)));
+            responseWrapper.copyBodyToResponse();*/
+            logger.info("request[{}]", rootNode.toString());
+        } catch (Exception e) {
+            logger.error("输出请求日志异常.", e);
+        }
+    }
+
+    /**
+     * 打印响应参数
+     * @param response
+     */
+    private String getResponseBody(ContentCachingResponseWrapper response) {
+        ContentCachingResponseWrapper wrapper = WebUtils.getNativeResponse(response, ContentCachingResponseWrapper.class);
+        if(wrapper != null) {
+            byte[] buf = wrapper.getContentAsByteArray();
+            if(buf.length > 0) {
+                String responseStr;
+                try {
+                    responseStr = new String(buf, "utf-8").replaceAll("[\n|\r|\t]", "");
+                } catch (UnsupportedEncodingException e) {
+                    responseStr = "[unknown]";
+                }
+                return responseStr;
+            }
+        }
+        return "";
+    }
+
+    /**
+     * 获取请求头信息
+     * @param request
+     * @return
+     */
+    private Map<String, Object> getRequestHeaders(HttpServletRequest request) {
+        Map<String, Object> headers = new HashMap<>();
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerName = headerNames.nextElement();
+            headers.put(headerName, request.getHeader(headerName));
+        }
+        return headers;
+    }
+
+    /**
+     * 获取响应头信息
+     * @param response
+     * @return
+     */
+    private Map<String, Object> getResponseHeaders(ContentCachingResponseWrapper response) {
+        Map<String, Object> headers = new HashMap<>();
+        Collection<String> headerNames = response.getHeaderNames();
+        for (String headerName : headerNames) {
+            headers.put(headerName, response.getHeader(headerName));
+        }
+        return headers;
+    }
+
+    /**
+     * 打印请求参数
+     * @param request
+     */
+    private String getRequestBody(ContentCachingRequestWrapper request) {
+        ContentCachingRequestWrapper wrapper = WebUtils.getNativeRequest(request, ContentCachingRequestWrapper.class);
+        if(wrapper != null) {
+            byte[] buf = wrapper.getContentAsByteArray();
+            if(buf.length > 0) {
+                String requestStr;
+                try {
+                    requestStr = new String(buf, "utf-8");
+                } catch (UnsupportedEncodingException e) {
+                    requestStr = "[unknown]";
+                }
+                return requestStr.replaceAll("\\n","");
+            }
+        }
+        return "";
+    }
+
+    /**
+     * 获取请求地址上的参数
+     * @param request
+     * @return
+     */
+    public static String getRequestParams(HttpServletRequest request) {
+        StringBuilder sb = new StringBuilder();
+        Enumeration<String> enu = request.getParameterNames();
+        //获取请求参数
+        while (enu.hasMoreElements()) {
+            String name = enu.nextElement();
+            sb.append(name + SPLIT_STRING_M).append(request.getParameter(name));
+            if(enu.hasMoreElements()) {
+                sb.append(SPLIT_STRING_DOT);
+            }
+        }
+        return sb.toString();
+    }
+}
