@@ -16,7 +16,17 @@ import java.util.*;
  *             <artifactId>dozer</artifactId>
  *             <version>5.5.1</version>
  *         </dependency>
- * dozer进行bean拷贝时很消耗性能
+ * dozer进行bean拷贝时很消耗性能,
+ * 建议使用BeanCopierUtils拷贝,
+ * BeanCopierUtils拷贝需要注意:
+ *     当使bean使用(@Accessors(chain = true))
+       lombok.experimental.Accessors的链式set值时无法进行数据的拷贝,
+       如:
+            @Data
+            @Accessors(chain = true)
+            public class AgentRule{}
+            Rule a = new Rule().setId(1).setName("a").setCreateTime(new Date());
+       解决办法:使用hutool的bean拷贝,dozen拷贝,springbean拷贝工具
  */ 
 public class BeanMapper {
     /**
