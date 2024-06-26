@@ -49,6 +49,13 @@ public class RequestResponseLogFilter extends OncePerRequestFilter implements Or
         long start = System.currentTimeMillis();
         MDC.clear();
         MDC.put("traceId", UuidUtils.generateUuid().replaceAll("-",""));
+        // 过滤文件上传
+        if(request.getContentType() != null && request.getContentType().startsWith("multipart/")){
+            filterChain.doFilter(request, response);
+            return;
+        } else if (!(request instanceof DefineServletRequestWrapper)) {
+            request = new DefineServletRequestWrapper(request);
+        }
         ContentCachingRequestWrapper wrapperRequest = new ContentCachingRequestWrapper(request);
         ContentCachingResponseWrapper wrapperResponse = new ContentCachingResponseWrapper(response);
         getRequestInfo(wrapperRequest, wrapperResponse);
