@@ -11,8 +11,6 @@ import javax.annotation.Resource;
 
 /**
  * @ClassName: WebMvcConfig
- * @Description:
- * @Author: ice
  */
 
 /**

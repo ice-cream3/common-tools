@@ -11,9 +11,6 @@ import java.security.SecureRandom;
 
 /**
  * @ClassName: TestMain
- * @Description:
- * @Author: ice
- * @Date: 2023/6/28 12:05
  */
 public class GoogleAuthenticator {
     //base64随机字符

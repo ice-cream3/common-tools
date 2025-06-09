@@ -1,4 +1,4 @@
-package com.clouder.platform.util;
+package chart;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
@@ -28,8 +28,6 @@ import java.text.NumberFormat;
 
 /**
  * @Description: ChartUtil
- * @author: lixl
- * @Date: 2020/4/7 10:22
  */
 public class ChartUtil {
     private static final String CHART_PATH = "d:/";
@@ -62,7 +60,7 @@ public class ChartUtil {
                 "</body>\n" +
                 "\n" +
                 "</html>").toString();
-        EmailUtil.sendEmailPicture(Arrays.asList("lixiaolong@cloud-er.com"), html);*/
+        EmailUtil.sendEmailPicture(Arrays.asList("ice@cloud-er.com"), html);*/
     }
 
     /**

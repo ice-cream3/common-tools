@@ -50,7 +50,7 @@ public class ShareUtils {
             resourceAsStream = ShareImageUtils.class.getResourceAsStream(FONT_PATH);
             if (resourceAsStream == null){
 //                String basePath = "D:/workspace/nicetuan/nicetuan-weapp-server/nicetuan-weapp/nicetuan-weapp-boot/src/main/resources/";
-                String basePath = "/Users/yangjian/IdeaProjects/nicetuan/nicetuan-api-detail-server/nicetuan-detail/nicetuan-detail-boot/src/main/resources";
+                String basePath = "/Users/src/main/resources";
                 resourceAsStream = new FileInputStream(ResourceUtils.getFile(basePath + FONT_PATH));
             }
             DEFALUT_FONT = Font.createFont(Font.TRUETYPE_FONT, resourceAsStream);
@@ -75,7 +75,7 @@ public class ShareUtils {
             resourceAsStream = ShareUtils.class.getResourceAsStream("/static/PingFang-Bold-2.ttf");
             if (resourceAsStream == null){
 //                String basePath = "D:/workspace/nicetuan/nicetuan-weapp-server/nicetuan-weapp/nicetuan-weapp-boot/src/main/resources/";
-                String basePath = "/Users/yangjian/IdeaProjects/nicetuan/nicetuan-api-detail-server/nicetuan-detail/nicetuan-detail-boot/src/main/resources/";
+                String basePath = "/Users/src/main/resources/";
                 resourceAsStream = new FileInputStream(ResourceUtils.getFile(basePath + "/static/PingFang-Bold-2.ttf"));
             }
             PINGFANG_BOLD = Font.createFont(Font.TRUETYPE_FONT, resourceAsStream);
@@ -99,8 +99,8 @@ public class ShareUtils {
         try {
             resourceAsStream = ShareUtils.class.getResourceAsStream("/static/PingFang-Jian-ChangGuiTi-2.ttf");
             if (resourceAsStream == null){
-//                String basePath = "D:/workspace/nicetuan/nicetuan-weapp-server/nicetuan-weapp/nicetuan-weapp-boot/src/main/resources/";
-                String basePath = "/Users/yangjian/IdeaProjects/nicetuan/nicetuan-api-detail-server/nicetuan-detail/nicetuan-detail-boot/src/main/resources/";
+//                String basePath = "D:/workspace/";
+                String basePath = "/Users/src/main/resources/";
                 resourceAsStream = new FileInputStream(ResourceUtils.getFile(basePath + "/static/PingFang-Jian-ChangGuiTi-2.ttf"));
             }
             PINGFANG_CHANGGUITI = Font.createFont(Font.TRUETYPE_FONT, resourceAsStream);
@@ -123,7 +123,7 @@ public class ShareUtils {
             resourceAsStream = ShareUtils.class.getResourceAsStream("/static/PingFang-Jian-ChangGuiTi-2.ttf");
             if (resourceAsStream == null){
 //                String basePath = "D:/workspace/nicetuan/nicetuan-weapp-server/nicetuan-weapp/nicetuan-weapp-boot/src/main/resources/";
-                String basePath = "/Users/yangjian/IdeaProjects/nicetuan/nicetuan-api-detail-server/nicetuan-detail/nicetuan-detail-boot/src/main/resources/";
+                String basePath = "/Users/src/main/resources/";
                 resourceAsStream = new FileInputStream(ResourceUtils.getFile(basePath + "/static/PingFang-Jian-ChangGuiTi-2.ttf"));
             }
             PINGFANG_ZHONGHEITI = Font.createFont(Font.TRUETYPE_FONT, resourceAsStream);

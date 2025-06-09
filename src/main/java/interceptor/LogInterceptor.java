@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @ClassName: LogInterceptor
- * @Description:
- * @Author: ice
  */
 @Component
 public class LogInterceptor implements HandlerInterceptor {

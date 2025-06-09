@@ -15,7 +15,8 @@ import java.io.InputStreamReader;
  * DefineServletRequestWrapper + RequestReplaceFilter 的作用是：
  *    解决异常处理器中拿post请求的json参数时，报request流只能读一次的错原因是 request.getReader() 和 request.getInputStream() 都是只能调用一次
  *    所以这里使用 HttpServletRequestWrapper 来实现自定义的 DefineServletRequestWrapper包装类把request里的 body 保存在 DefineServletRequestWrapper中,
- *    并且重写 getInputStream()方法然后所有的request都在RequestReplaceFilter中被转换成了我自定义的HttpServletRequestWrapper之后需要获取body时就都是调用 DefineServletRequestWrapper中的 getBody()方法了
+ *    并且重写 getInputStream()方法然后所有的request都在RequestReplaceFilter中被转换成了我自定义的HttpServletRequestWrapper
+ *    之后需要获取body时就都是调用 DefineServletRequestWrapper中的 getBody()方法了
  */
 public class DefineServletRequestWrapper extends HttpServletRequestWrapper {
     private final byte[] body;

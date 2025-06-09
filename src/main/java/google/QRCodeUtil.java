@@ -16,9 +16,6 @@ import java.util.Hashtable;
 
 /**
  * @ClassName: QRCodeUtil
- * @Description:
- * @Author: ice
- * @Date: 2023/6/28 12:11
  */
 public class QRCodeUtil {
     private static final String CHARSET = "utf-8";

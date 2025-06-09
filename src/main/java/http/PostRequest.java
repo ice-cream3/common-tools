@@ -31,15 +31,15 @@ public final class PostRequest extends Request{
 	private static final Logger logger = LoggerFactory
 			.getLogger(PostRequest.class);
 
-	private HttpPost post = null;
+	private HttpPost post;
 
-	private HttpClient client = null;
+	private HttpClient client;
 	
 	private HttpEntity httpEntity = null;
 	
 	
 
-	private final List<NameValuePair> params = new ArrayList<NameValuePair>();
+	private final List<NameValuePair> params = new ArrayList<>();
 
 	private static final String DEFAULTCHARSET = "UTF-8";
 
@@ -69,11 +69,9 @@ public final class PostRequest extends Request{
 			return this;
 		}
 		Set<String> keySets = headers.keySet();
-		Iterator<String> it = keySets.iterator();
-		while (it.hasNext()){
-			String key = it.next();
-			addHeader(key, headers.get(key));
-		}
+        for (String key : keySets) {
+            addHeader(key, headers.get(key));
+        }
 		return this;
 	}
 
@@ -89,11 +87,9 @@ public final class PostRequest extends Request{
 			return this;
 		}
 		Set<String> keys = map.keySet();
-		Iterator<String> it = keys.iterator();
-		while (it.hasNext()){
-			String paramName = it.next();
-			addParam(paramName,map.get(paramName));
-		}
+        for (String paramName : keys) {
+            addParam(paramName, map.get(paramName));
+        }
 		return this;
 	}
 	
@@ -160,7 +156,7 @@ public final class PostRequest extends Request{
 			builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 			builder.addBinaryBody(name, file, contentType,file != null ? file.getName() : null);
 			builder.setCharset(Charset.forName(charset));
-			if (params!=null&&!params.isEmpty()) {
+			if (!params.isEmpty()) {
 				for (NameValuePair nv : params) {
 					builder.addTextBody(nv.getName(),nv.getValue());
 				}

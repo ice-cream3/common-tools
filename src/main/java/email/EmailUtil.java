@@ -13,8 +13,6 @@ import java.util.Properties;
 
 /**
  * @Description: EmailTest
- * @author: lixl
- * @Date: 2020/4/3 18:04
  *
  * <!--发送邮件-->
  *         <dependency>
@@ -28,13 +26,13 @@ public class EmailUtil {
     private static final String SEND_EMAIL_ACCOUNT = "support@cloud-er.com";
     private static final String SEND_EMAIL_PW = "clouder2019!A";
     private static final String SEND_EMAIL_SMTP_HOST = "smtp.exmail.qq.com";
-    private static final String SUBJECT_TITLE = "云尔科技";
+    private static final String SUBJECT_TITLE = "飞天科技";
     private static final String RECEIVE_PEOPLE = "您好";
-    private static final String SEND_EMAIL_PERSONAL = "北京云尔计算科技有限公司";
+    private static final String SEND_EMAIL_PERSONAL = "北京飞天计算科技有限公司";
 
     // JavaMail须要Properties来创建一个session对象。它将寻找字符串"mail.smtp.host"，属性值就是发送邮件的主机.
     public static void main(String[] args) throws Exception {
-        List<String> receiveMail = Arrays.asList("lixiaolong@cloud-er.com");
+        List<String> receiveMail = Arrays.asList("ice@cloud-er.com");
         // setContent(“邮件的正文内容”,”设置邮件内容的编码方式”)
         String html = new StringBuffer()
                 .append("<html>")

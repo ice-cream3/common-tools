@@ -7,9 +7,6 @@ import java.io.IOException;
 
 /**
  * @ClassName: LogFilter
- * @Description:
- * @Author: ice
- * @Date: 2023/7/4 18:13
  *
  * Filter添加依赖
  *      <dependency>

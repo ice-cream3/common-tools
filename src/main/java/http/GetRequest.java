@@ -25,9 +25,9 @@ public final class GetRequest extends Request {
 
     private static final Logger logger = LoggerFactory.getLogger(GetRequest.class);
 
-    private HttpGet get = null;
+    private HttpGet get;
 
-    private HttpClient client = null;
+    private HttpClient client;
 
     private static final String DEFAULTCHARSET = "UTF-8";
 
@@ -57,9 +57,7 @@ public final class GetRequest extends Request {
             return this;
         }
         Set<String> keySets = headers.keySet();
-        Iterator<String> it = keySets.iterator();
-        while (it.hasNext()) {
-            String key = it.next();
+        for (String key : keySets) {
             addHeader(key, headers.get(key));
         }
         return this;

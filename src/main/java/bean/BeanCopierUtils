@@ -1,4 +1,3 @@
-package com.tx.global.admin.pojo.entity.system;
 import net.sf.cglib.beans.BeanCopier;
 
 import java.util.HashMap;

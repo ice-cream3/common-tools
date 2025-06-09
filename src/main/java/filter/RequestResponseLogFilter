@@ -22,8 +22,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 /**
- * @author ice
- * @date 2019/12/20 15:42
  * 由于request流只能读一次,所以当过滤器过滤时打印了request数据时业务业务将会无法接收到正常的请求数据.
  * 需要重写getInputStream()方法,保证所有的request请求都能获取的参数,也就是让request做到可以无限次获取
  * 具体实现参考:DefineServletRequestWrapper 重写 HttpServletRequestWrapper,写一个自定义包装类并继承HttpServletRequestWrapper
@@ -51,7 +49,7 @@ public class RequestResponseLogFilter extends OncePerRequestFilter implements Or
         MDC.clear();
         MDC.put("traceId", UuidUtils.generateUuid().replaceAll("-",""));
         // 过滤文件上传
-        if(request.getContentType() != null && request.getContentType().startsWith("multipart/")){
+        if(request.getContentType() != null && request.getContentType().startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)){
             filterChain.doFilter(request, response);
             return;
         } else if (!(request instanceof DefineServletRequestWrapper)) {

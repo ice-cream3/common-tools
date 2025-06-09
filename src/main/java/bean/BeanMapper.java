@@ -7,10 +7,6 @@ import java.util.*;
 
 /**
  * @Description: BeanMapper
- * @author: ice
- * @Date: 2020/4/13 19:10
- *
- *
  * <dependency>
  *             <groupId>net.sf.dozer</groupId>
  *             <artifactId>dozer</artifactId>

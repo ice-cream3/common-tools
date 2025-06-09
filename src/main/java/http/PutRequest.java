@@ -27,21 +27,18 @@ import java.util.*;
 
 /**
  * 处理put请求
- *
  */
 public final class PutRequest extends Request {
 
-    private static final Logger logger = LoggerFactory
-            .getLogger(PutRequest.class);
+    private static final Logger logger = LoggerFactory.getLogger(PutRequest.class);
 
-    private HttpPut put = null;
+    private HttpPut put;
 
-    private HttpClient client = null;
+    private HttpClient client;
 
     private HttpEntity httpEntity = null;
 
-
-    private final List<NameValuePair> params = new ArrayList<NameValuePair>();
+    private final List<NameValuePair> params = new ArrayList<>();
 
     private static final String DEFAULTCHARSET = "UTF-8";
 
@@ -52,8 +49,7 @@ public final class PutRequest extends Request {
         put = new HttpPut(url);
     }
 
-    public PutRequest(HttpClient httpClient, String url,
-                      String charset) {
+    public PutRequest(HttpClient httpClient, String url, String charset) {
         this(httpClient, url);
         this.charset = charset;
     }
@@ -71,9 +67,7 @@ public final class PutRequest extends Request {
             return this;
         }
         Set<String> keySets = headers.keySet();
-        Iterator<String> it = keySets.iterator();
-        while (it.hasNext()) {
-            String key = it.next();
+        for (String key : keySets) {
             addHeader(key, headers.get(key));
         }
         return this;
@@ -92,9 +86,7 @@ public final class PutRequest extends Request {
             return this;
         }
         Set<String> keys = map.keySet();
-        Iterator<String> it = keys.iterator();
-        while (it.hasNext()) {
-            String paramName = it.next();
+        for (String paramName : keys) {
             addParam(paramName, map.get(paramName));
         }
         return this;
@@ -162,7 +154,7 @@ public final class PutRequest extends Request {
             builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
             builder.addBinaryBody(name, file, contentType, file != null ? file.getName() : null);
             builder.setCharset(Charset.forName(charset));
-            if (params != null && !params.isEmpty()) {
+            if (!params.isEmpty()) {
                 for (NameValuePair nv : params) {
                     builder.addTextBody(nv.getName(), nv.getValue());
                 }
@@ -176,17 +168,17 @@ public final class PutRequest extends Request {
 
 
     @Override
-    public String execute()  throws HttpException{
+    public String execute() throws HttpException {
         return exc(String.class);
     }
 
     @Override
-    public JSONObject executeToJson()  throws HttpException{
+    public JSONObject executeToJson() throws HttpException {
         return exc(JSONObject.class);
     }
 
     @Override
-    public <T> T executeToObject(Class<T> clazz)  throws HttpException{
+    public <T> T executeToObject(Class<T> clazz) throws HttpException {
         return exc(clazz);
     }
 
@@ -210,7 +202,7 @@ public final class PutRequest extends Request {
             HttpResponse response = client.execute(put);
             HttpEntity entity = response.getEntity();
             status = response.getStatusLine().getStatusCode();
-            if (status == 401){
+            if (status == 401) {
                 throw new Exception();
             }
             if (entity != null) {
@@ -249,11 +241,9 @@ public final class PutRequest extends Request {
                 logger.info("cost={}ms,status={},url={},params={}", endTime - startTime, status, put.getURI(), params);
             } else {
                 if (limitResult <= 0 || StringUtils.defaultString(result, "").length() <= limitResult) {
-                    logger.info("cost={}ms,status={},url={},params={},result={}", endTime - startTime, status,
-                            put.getURI(), params, result);
+                    logger.info("cost={}ms,status={},url={},params={},result={}", endTime - startTime, status, put.getURI(), params, result);
                 } else {
-                    logger.info("cost={}ms,status={},url={},params={},result={}", endTime - startTime, status,
-                            put.getURI(), params, result.substring(0, limitResult));
+                    logger.info("cost={}ms,status={},url={},params={},result={}", endTime - startTime, status, put.getURI(), params, result.substring(0, limitResult));
                 }
             }
         }
